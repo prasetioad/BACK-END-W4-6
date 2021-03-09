@@ -1,25 +1,61 @@
 const ticketssModels = require('../models/products')
 const db = require('../config/db')
 
+const getTicketByName = (req, res) => {
+  const name = req.query.search
+  console.log(name + ' ini Get by Name');
+  ticketssModels.getTicketsByName(name)
+  .then((result)=>{
+      res.json({
+          message: 'Apakah ini yang anda Cari?',
+          data: result
+      })
+  })
+  .catch((err) =>{
+      console.log(err);
+  })
+}
+
+
 const getAllTickets = (req, res) => {
+  const name = req.query.search
   const currentPage = req.query.page || 1;
   const perPage =  req.query.perPage || 5;
   const skip = (currentPage - 1) * perPage
 
-  ticketssModels.getTickets(skip, perPage)
-    .then((result) => {
-    totalItems = result.length
-      res.json({
-        message: 'Apakah ini yang anda cari?',
-        data: result,
-        currentPage: currentPage,
-        totalItems: totalItems ,
-        
+  if (typeof name == 'string') {
+    ticketssModels.getTicketsByName(name)
+      .then((result) => {
+        totalItems = result.length
+        res.json({
+          message: 'Nama yang mungkin sesuai ....',
+          data: result,
+        })
       })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .catch((err) => {
+        res.json({
+          err : err + 'mohon periksa kembali!'
+        })
+      })
+  } else {
+    console.log(currentPage.length);
+    ticketssModels.getTickets(skip, perPage)
+      .then((result) => {
+        totalItems = result.length
+        res.json({
+          message: 'Apakah ini yang anda cari?',
+          data: result,
+          currentPage: currentPage,
+          totalItems: totalItems,
+
+        })
+      })
+      .catch((err) => {
+        err.json({
+          status: err
+        })
+      })
+  }
 }
 
 const creatTicket = (req, res) => {
@@ -87,7 +123,7 @@ const deleteTicket = (req, res) => {
 
 const getTicketById = (req, res) => {
   const idTicket = req.params.id
-  console.log(typeof (idTicket))
+  console.log(idTicket + ' get Tiket by ID berjalan')
   ticketssModels.getTicketsById(idTicket)
     .then((result) => {
       res.json({
@@ -96,30 +132,19 @@ const getTicketById = (req, res) => {
       })
     })
     .catch((err) => {
-      console.log(err)
+      res.json({
+        err : err + 'mohon periksa kembali!',
+        status: 400
+      })
     })
 }
 
-// const getTicketByName = (req, res) => {
-//     const name = req.params.name
-//     console.log(name + 'ini Get by Name');
-//     ticketssModels.getTicketsByName(name)
-//     .then((result)=>{
-//         res.json({
-//             message: 'Apakah ini yang anda Cari?',
-//             data: result
-//         })
-//     })
-//     .catch((err) =>{
-//         console.log(err);
-//     })
-// }
 
 module.exports = {
   creatTicket,
   getAllTickets,
   updateTicket,
   deleteTicket,
-  getTicketById
-  // getTicketByName,
+  getTicketById,
+  getTicketByName,
 }

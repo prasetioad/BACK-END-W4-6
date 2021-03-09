@@ -1,4 +1,5 @@
 const connection = require('../config/db')
+const { search } = require('../routers/products')
 
 const tickets = {
   getTickets: (skip, perPage) => {
@@ -54,7 +55,12 @@ const tickets = {
       if (id % 2 === 1 || id % 2 === 0) {
         connection.query('SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.id = ?', id, (err, result) => {
           if (!err) {
-            resolve(result)
+            if(result.length < 1){
+              reject(new Error('Maaf data tidak ada!'))
+            }else{
+              console.log('Ketemu!');
+              resolve(result)
+            }
           } else {
             reject(err)
           }
@@ -69,6 +75,24 @@ const tickets = {
           }
         })
       }
+    })
+  },
+
+  getTicketsByName: (name) =>{
+    return new Promise ((resolve, reject) =>{
+      connection.query(`SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.name LIKE '${'%'+name+'%'}'`, (err, result) => {
+        console.log(result.length)
+        if (!err) {
+          if(result.length < 1){
+            reject(new Error('Maaf data tidak ada!'))
+          }else{
+            console.log('Ketemu!');
+            resolve(result)
+          }
+        } else {
+          reject(err)
+        }
+      })
     })
   }
 

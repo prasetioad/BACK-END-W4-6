@@ -3,6 +3,9 @@ const productsController = require('../controllers/products')
 const router = express.Router()
 
 router
+
+  .get('/tikets?search=', productsController.getTicketByName)
+
 // //CREAT -> POST
   .post('/', productsController.creatTicket)
 
@@ -17,7 +20,7 @@ router
 
   .get('/:id', productsController.getTicketById)
 
-// .get('/:name', productsController.getTicketByName)
+  
 
 // .post('/', productsController.creatTicket)
 
