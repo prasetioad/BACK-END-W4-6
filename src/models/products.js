@@ -4,7 +4,7 @@ const { search } = require('../routers/products')
 const tickets = {
   getTickets: (skip, perPage) => {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id ORDER BY createdAt DESC LIMIT ${skip+','+perPage}`, (err, result) => {
+      connection.query(`SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id ORDER BY createdAt DESC LIMIT ${skip + ',' + perPage}`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -55,10 +55,10 @@ const tickets = {
       if (id % 2 === 1 || id % 2 === 0) {
         connection.query('SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.id = ?', id, (err, result) => {
           if (!err) {
-            if(result.length < 1){
+            if (result.length < 1) {
               reject(new Error('Maaf data tidak ada!'))
-            }else{
-              console.log('Ketemu!');
+            } else {
+              console.log('Ketemu!')
               resolve(result)
             }
           } else {
@@ -78,15 +78,15 @@ const tickets = {
     })
   },
 
-  getTicketsByName: (name) =>{
-    return new Promise ((resolve, reject) =>{
-      connection.query(`SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.name LIKE '${'%'+name+'%'}'`, (err, result) => {
-        console.log(result.length)
+  getTicketsByName: (name) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.name LIKE '${'%' + name + '%'}'`, (err, result) => {
+        console.log('getTicketsByName')
         if (!err) {
-          if(result.length < 1){
+          if (result.length < 1) {
             reject(new Error('Maaf data tidak ada!'))
-          }else{
-            console.log('Ketemu!');
+          } else {
+            console.log('Get Tiket Byname Berjalan')
             resolve(result)
           }
         } else {

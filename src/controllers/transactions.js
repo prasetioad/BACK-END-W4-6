@@ -1,12 +1,15 @@
 const transactionsModels = require('../models/transactions')
+const helpers = require('../helpers/helper')
+const redis = require("redis");
+const client = redis.createClient(6379);
 
 exports.getTransactions = (req, res) => {
   transactionsModels.getTransactions()
     .then((result) => {
-      res.json({
-        message: 'Get Transactions Successfully!',
-        data: result
-      })
+      const resultProduct = result
+      client.setex("getProducts", 60*60*12, JSON.stringify(resultProduct))
+      totalItems = result.length
+      helpers.response(res, resultProduct, 200)
     })
     .catch((err) => {
       console.log(err)

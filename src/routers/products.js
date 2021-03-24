@@ -1,27 +1,18 @@
 const express = require('express')
 const productsController = require('../controllers/products')
 const router = express.Router()
+const auth = require('../middlewares/auth')
+const { upload } = require('../middlewares/multer')
+const { cacheAllProduct, clearAllProduct } = require('../middlewares/redis')
 
 router
 
-  .get('/tikets?search=', productsController.getTicketByName)
-
-// //CREAT -> POST
-  .post('/', productsController.creatTicket)
-
-// READ -> GET
-  .get('/', productsController.getAllTickets)
-
-// //UPDATE -> PUT
-  .put('/:id', productsController.updateTicket)
-
-// //DELETE -> DELETE
-  .delete('/:id', productsController.deleteTicket)
-
-  .get('/:id', productsController.getTicketById)
-
-  
-
+  .get('/tikets?search=',cacheAllProduct, productsController.getTicketByName)
+  .post('/', upload.single('image'), clearAllProduct, productsController.creatTicket)
+  .get('/',cacheAllProduct, productsController.getAllTickets)
+  .put('/:id', clearAllProduct, productsController.updateTicket)
+  .delete('/:id', clearAllProduct, productsController.deleteTicket)
+  .get('/:id', cacheAllProduct, productsController.getTicketById)
 // .post('/', productsController.creatTicket)
 
 module.exports = router

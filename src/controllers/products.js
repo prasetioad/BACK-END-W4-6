@@ -1,73 +1,82 @@
 const ticketssModels = require('../models/products')
 const db = require('../config/db')
+const helpers = require('../helpers/helper')
+const redis = require("redis");
+const client = redis.createClient(6379);
+
+
 
 const getTicketByName = (req, res) => {
   const name = req.query.search
-  console.log(name + ' ini Get by Name');
+  console.log(name + ' ini Get by Name')
   ticketssModels.getTicketsByName(name)
-  .then((result)=>{
+    .then((result) => {
       res.json({
-          message: 'Apakah ini yang anda Cari?',
-          data: result
+        message: 'Apakah ini yang anda Cari?',
+        data: result
       })
-  })
-  .catch((err) =>{
-      console.log(err);
-  })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
-
 
 const getAllTickets = (req, res) => {
   const name = req.query.search
-  const currentPage = req.query.page || 1;
-  const perPage =  req.query.perPage || 5;
+  const currentPage = req.query.page || 1
+  const perPage = req.query.per_Page || 5
   const skip = (currentPage - 1) * perPage
+  console.log(name + ' Query Search berjalan')
 
-  if (typeof name == 'string') {
+  if (typeof name === 'string') {
     ticketssModels.getTicketsByName(name)
       .then((result) => {
         totalItems = result.length
-        res.json({
-          message: 'Nama yang mungkin sesuai ....',
-          data: result,
-        })
+        if (result.length > 0) {
+          res.json({
+            message: 'Nama yang mungkin sesuai ....',
+            data: result[0]
+          })
+        }
       })
       .catch((err) => {
-        res.json({
-          err : err + 'mohon periksa kembali!'
-        })
+        return helpers.response(res, null, 401, { err: err })
       })
   } else {
-    console.log(currentPage.length);
+    console.log(currentPage.length, 'Mengunakan')
     ticketssModels.getTickets(skip, perPage)
       .then((result) => {
+        const resultProduct = result
+        client.setex("getProducts", 60*60*12, JSON.stringify(resultProduct))
         totalItems = result.length
-        res.json({
-          message: 'Apakah ini yang anda cari?',
-          data: result,
-          currentPage: currentPage,
-          totalItems: totalItems,
-
-        })
+        helpers.response(res, resultProduct, 200)
+        
       })
       .catch((err) => {
-        err.json({
-          status: err
-        })
+        return helpers.response(res, null, 401, { err: err })
       })
   }
 }
 
 const creatTicket = (req, res) => {
-  const { name, date, time, row, room, seat, price } = req.body
+  const { name, release_date, duration, row, room, seat, price, director, synopsis } = req.body
+  const image = req.file.filename
+  console.log(req.file.size)
+  if (req.file.size > 200000) {
+    return helpers.response(res, null, 401, { gambar: 'Gambar terlalu Besar!' })
+  }
+  console.log(req.file)
   const data = {
     name,
-    date,
-    time,
+    release_date,
+    duration,
+    director,
+    synopsis,
     row,
     room,
     seat,
-    price
+    price,
+    image: `http://localhost:5400/image/${image}`
   }
   ticketssModels.creatTickets(data)
     .then((result) => {
@@ -77,7 +86,7 @@ const creatTicket = (req, res) => {
       })
     })
     .catch((err) => {
-      console.log(err)
+      return helpers.response(res, null, 401, { err: err })
     })
 }
 
@@ -103,7 +112,7 @@ const updateTicket = (req, res) => {
       })
     })
     .catch((err) => {
-      console.log(err)
+      return helpers.response(res, null, 401, { err: err })
     })
 }
 
@@ -117,28 +126,25 @@ const deleteTicket = (req, res) => {
       })
     })
     .catch((err) => {
-      console.log(err)
+      return helpers.response(res, null, 401, { err: err })
     })
 }
 
 const getTicketById = (req, res) => {
+  console.log('Get By ID BErjalan');
   const idTicket = req.params.id
   console.log(idTicket + ' get Tiket by ID berjalan')
   ticketssModels.getTicketsById(idTicket)
     .then((result) => {
-      res.json({
-        message: 'Apakah ini yang anda cari?',
-        data: result
-      })
+        const resultProduct = result
+        client.setex(`product_${idTicket}`, 60*60*12, JSON.stringify(resultProduct))
+        totalItems = result.length
+        helpers.response(res, resultProduct, 200)
     })
     .catch((err) => {
-      res.json({
-        err : err + 'mohon periksa kembali!',
-        status: 400
-      })
+      return helpers.response(res, null, 401, { err: err })
     })
 }
-
 
 module.exports = {
   creatTicket,
@@ -146,5 +152,5 @@ module.exports = {
   updateTicket,
   deleteTicket,
   getTicketById,
-  getTicketByName,
+  getTicketByName
 }
