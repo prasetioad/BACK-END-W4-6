@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const hash = require('../helpers/hash')
 const { sendMail } = require('../helpers/email')
+const { sendForgotMail }= require('../helpers/sendForgotMail')
 
 exports.getUsers = (req, res) => {
-  console.log(req);
   usersModels.getUsers()
     .then((result) => {
       res.json({
@@ -36,25 +36,30 @@ exports.getUserById = (req, res) => {
 }
 
 exports.creatUser = (req, res) => {
-  const { email, password } = req.body
+  const {userid, email, password } = req.body
   console.log(email)
   const data = {
+    userid,
     email,
     password
   }
   console.log(data)
   usersModels.creatUser(data)
     .then((result) => {
-      res.status(201).json({
-        message: 'Creat user Success!',
-        data: result
-      })
+      return helpers.response(res, result, 200, null)
+    })
+    .catch((err)=>{
+      console.log(err);
     })
 }
 
 exports.updateUser = (req, res) => {
   const { firstName, lastName, email, phone_number } = req.body
-  const image = req.file.filename
+  const image = req.filename
+  console.log(req);
+  // if (req.file.size > 200000) {
+  //   return helpers.response(res, null, 401, { gambar: 'Gambar terlalu Besar!' })
+  // }
   const data = {
     firstName,
     lastName,
@@ -64,14 +69,11 @@ exports.updateUser = (req, res) => {
   }
   const idUser = req.params.id
   usersModels.updateUser(idUser, data)
-    .then((result) => {
-      res.json({
-        message: 'Update Success!',
-        data: result
-      })
+    .then((result) => { 
+      return helpers.response(res, result, 201, null)
     })
     .catch((err) => {
-      console.log(err)
+      return helpers.response(res, result, 401, {error : err})
     })
 }
 
@@ -101,8 +103,10 @@ exports.register = async (req, res) => {
       password: await hash.hashPassword(password)
 
     }
-    const insert = await usersModels.creatUser(data) 
-    sendMail(email)
+    jwt.sign({ email: email }, privateKey, { expiresIn: '1h' }, function (err, token) {
+      console.log('Mengirim Emaill....');
+      return sendMail(data.userid, email, token, data.password)
+    })
     return helpers.response(res, insert, 401, null)
   } catch (error) {
     console.log(error)
@@ -119,20 +123,58 @@ exports.signIn = async (req, res) => {
     }
     const user = result[0]
     const isValid = await bcrypt.compare(password, user.password)
-
+    console.log(password, user.password);
     if (!isValid) {
       return helpers.response(res, null, 401, { email: 'email dan password anda salah' })
     }
     console.log(user);
     delete user.password
 
-    jwt.sign({ email: user.email, role: user.role }, privateKey, { expiresIn: '1h' }, function (err, token) {
+    jwt.sign({id: user.userid, email: user.email, role: user.role }, privateKey, { expiresIn: '1h' }, function (err, token) {
       user.token = token
-      return helpers.response(res, user, 200, null)
+      return helpers.response(res, token, 200, null)
     })
     // JWT lulus pengecekan
   } catch (error) {
     console.log(error)
     return helpers.response(res, null, 500, { message: 'Internal server Error!' })
   }
+}
+
+exports.forgotCheck = async(req, res) => {
+  try {
+    console.log('forgot berjalan', req.body);
+    const {email} = req.body
+    const process = await usersModels.findUser(email)
+    console.log('berhasil melewati await');
+    if(process.length == 0){
+      return helpers.response(res, null, 401, {message: 'Email tidak ada!'})
+    }
+    console.log('menuju pembuatan jwt token');
+    const user = process[0]
+    jwt.sign({id: user.userid, email: user.email}, privateKey, { expiresIn: '1h' }, function (err, token) {
+      console.log('berhasil membuat token');
+      user.token = sendForgotMail(token, user.userid, email)
+      console.log('berhasil mengirim Email');
+      return helpers.response(res, result, 201, null)
+    })
+    return helpers.response(res, result, 401, null)
+  } catch (err) {
+    return helpers.response(res, null, 500, { err: 'Internal Serve Error'   })
+  }
+}
+
+exports.forgotUpdate= async (req, res) => {
+  console.log(req.body.password);
+  const {email, password} = req.body
+  const data ={ password : await hash.hashPassword(password)}
+  console.log('forgot update berjalan',data);
+  const idUser = req.params.id
+  usersModels.updateUser(idUser, data)
+    .then((result) => { 
+      return helpers.response(res, result, 201, null)
+    })
+    .catch((err) => {
+      return helpers.response(res, result, 401, {error : err})
+    })
 }

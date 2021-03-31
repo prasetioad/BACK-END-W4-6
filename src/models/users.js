@@ -40,6 +40,7 @@ const users = {
 
   updateUser: (id, data) => {
     return new Promise((resolve, reject) => {
+      console.log('masuk methode update user');
       connection.query('UPDATE user SET ? WHERE userid = ?', [data, id], (err, result) => {
         if (!err) {
           resolve(result)

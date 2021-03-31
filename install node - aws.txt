@@ -8,3 +8,10 @@ Install Node.js terbaru:
 Install PM2: npm install pm2 -g (for running node app)
 
 Setting Security Group untuk Inbound rules sesuai PORT yang diinginkan
+
+
+dainahmad.new@gmail.com
+qqqqq123456#
+
+cara get profil bagusnya pakai url, matau menggunakan end point users/profile lalu idnya
+didapat dari Token

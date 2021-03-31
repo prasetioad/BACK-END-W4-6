@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport({
     },
   });
 
-  const sendMail = (email, body)=>{
+  const sendMail = (userid, email, token, password)=>{
       return new Promise(async (resolve, reject) =>{
           let info = await transporter.sendMail({
               from: process.env.EMAIL, // sender address
@@ -55,8 +55,8 @@ let transporter = nodemailer.createTransport({
                   <main>
                       <p>Hello there...</p>
                       <p>Introduce my self, my name is wisnu, here i want to invit you to joint in my work as a Web Developer,</p>
-                      <p>this is your token invitation:</p>
-                      <p>${body}<p>
+                      <p>this is your token validation:</p>
+                      <p>http://localhost:3000/auth/${token}/${userid}/${email}/${password}<p>
                   </main>
                   <footer>
                         <p>regards...</p>

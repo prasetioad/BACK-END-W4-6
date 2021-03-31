@@ -11,6 +11,7 @@ const verivyAccess = (req, res, next) => {
   }
   const token = auth.split(' ')
   jwt.verify(token[1], privateKey, function (err, decoded) {
+    console.log('AUTHEN BERJALAN');
     if (err) {
       if (err.name === 'TokenExpiredError') {
         return helpers.response(res, null, 401, {
@@ -26,8 +27,20 @@ const verivyAccess = (req, res, next) => {
         })
       }
     } else {
-      console.log('ini adalah decode', decoded)
-      next(decoded)
+      if(decoded.role === 1){ //ROLE ADMIN
+        console.log(decoded);
+        next()
+      }else{
+        if(decoded.id === req.params.id){
+        console.log('ini userid', req.params.id);
+        console.log('decode id', decoded.id);
+        next()
+        } else{
+          return helpers.response(res, null, 401, {
+            message: 'Unauthorized'
+          })
+        }
+      }
     }
   })
 }

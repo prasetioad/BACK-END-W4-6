@@ -10,8 +10,8 @@ router
   .get('/tikets?search=',cacheAllProduct, productsController.getTicketByName)
   .post('/', upload.single('image'), clearAllProduct, productsController.creatTicket)
   .get('/',cacheAllProduct, productsController.getAllTickets)
-  .put('/:id', clearAllProduct, productsController.updateTicket)
-  .delete('/:id', clearAllProduct, productsController.deleteTicket)
+  .put('/:id',auth.verivyAccess, clearAllProduct, productsController.updateTicket)
+  .delete('/:id',auth.verivyAccess, clearAllProduct, productsController.deleteTicket)
   .get('/:id', cacheAllProduct, productsController.getTicketById)
 // .post('/', productsController.creatTicket)
 

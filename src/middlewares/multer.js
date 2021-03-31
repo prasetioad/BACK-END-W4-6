@@ -26,7 +26,7 @@ const upload = multer({
       return cb(new Error('Only .png, .jpg and .jpeg format allowed!'))
     }
   },
-  limits: { fieldSize: maxSize }
+  limits: { fileSize: 1000000}
 
 })
 

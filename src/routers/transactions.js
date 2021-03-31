@@ -7,8 +7,8 @@ const auth = require('../middlewares/auth')
 router
   .get('/',auth.verivyAccess, transactionControllers.getTransactions)
   .get('/:id',  auth.verivyAccess, transactionControllers.getTransactionById)
-  .post('/', transactionControllers.creatTransaction)
-  .put('/:id', transactionControllers.updateTransaction)
-  .delete('/:id', transactionControllers.deleteTransaction)
+  .post('/',auth.verivyAccess, transactionControllers.creatTransaction)
+  .put('/:id',auth.verivyAccess, transactionControllers.updateTransaction)
+  .delete('/:id',auth.verivyAccess, transactionControllers.deleteTransaction)
 
 module.exports = router

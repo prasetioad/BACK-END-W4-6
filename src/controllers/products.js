@@ -46,10 +46,10 @@ const getAllTickets = (req, res) => {
     console.log(currentPage.length, 'Mengunakan')
     ticketssModels.getTickets(skip, perPage)
       .then((result) => {
-        const resultProduct = result
-        client.setex("getProducts", 60*60*12, JSON.stringify(resultProduct))
-        totalItems = result.length
-        helpers.response(res, resultProduct, 200)
+        res.status(201).json({
+        message: 'Creat Successfull',
+        data: result
+      })
         
       })
       .catch((err) => {
