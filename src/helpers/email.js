@@ -50,17 +50,16 @@ let transporter = nodemailer.createTransport({
               </head>
               <body>
                   <header>
-                      <h3>WISNU PRASETIO</h3>
+                      <h3>ACTIVATION</h3>
                   </header>
                   <main>
                       <p>Hello there...</p>
-                      <p>Introduce my self, my name is wisnu, here i want to invit you to joint in my work as a Web Developer,</p>
-                      <p>this is your token validation:</p>
+                      <p>this is your activation link :</p>
                       <p>http://localhost:3000/auth/${token}/${userid}/${email}/${password}<p>
                   </main>
                   <footer>
                         <p>regards...</p>
-                        <p>wisnu prasetio</p>
+                        <p>team</p>
                    </footer>
               </body>
               </html> `, // html body

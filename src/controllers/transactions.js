@@ -31,15 +31,18 @@ exports.getTransactionById = (req, res) => {
 }
 
 exports.creatTransaction = (req, res) => {
-  const { Movie, Date, Time, Category, Count, seats, Price } = req.body
+  const { transaction_id, movie, provider, location, date, time, category, count, seats, price } = req.body
   const data = {
-    Movie,
-    Date,
-    Time,
-    Category,
-    Count,
+    transaction_id,
+    movie,
+    location,
+    provider,
+    date,
+    time,
+    category,
+    count,
     seats,
-    Price
+    price
   }
   transactionsModels.creatTransaction(data)
     .then((result) => {

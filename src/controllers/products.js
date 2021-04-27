@@ -47,7 +47,7 @@ const getAllTickets = (req, res) => {
     ticketssModels.getTickets(skip, perPage)
       .then((result) => {
         res.status(201).json({
-        message: 'Creat Successfull',
+        message: 'Get Successfull',
         data: result
       })
         
@@ -59,35 +59,33 @@ const getAllTickets = (req, res) => {
 }
 
 const creatTicket = (req, res) => {
-  const { name, release_date, duration, row, room, seat, price, director, synopsis } = req.body
-  const image = req.file.filename
-  console.log(req.file.size)
-  if (req.file.size > 200000) {
-    return helpers.response(res, null, 401, { gambar: 'Gambar terlalu Besar!' })
-  }
-  console.log(req.file)
+  const { name, release_date, duration, category, director, synopsis, cast } = req.body
+  const image = req
+  // console.log(req.file.size)
+  // if (req.file.size > 200000) {
+  //   return helpers.response(res, null, 401, { gambar: 'Gambar terlalu Besar!' })
+  // }
   const data = {
     name,
     release_date,
     duration,
     director,
     synopsis,
-    row,
-    room,
-    seat,
-    price,
+    category,
+    cast,
     image: `http://localhost:5400/image/${image}`
   }
-  ticketssModels.creatTickets(data)
-    .then((result) => {
-      res.status(201).json({
-        message: 'Creat Successfull',
-        data: result
-      })
-    })
-    .catch((err) => {
-      return helpers.response(res, null, 401, { err: err })
-    })
+  console.log('gambar masuk tiket', req);
+  // ticketssModels.creatTickets(data)
+  //   .then((result) => {
+  //     res.status(201).json({
+  //       message: 'Creat Successfull',
+  //       data: result
+  //     })
+  //   })
+  //   .catch((err) => {
+  //     return helpers.response(res, null, 401, { err: err })
+  //   })
 }
 
 // //

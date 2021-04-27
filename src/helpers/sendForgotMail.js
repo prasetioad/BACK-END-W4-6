@@ -50,7 +50,7 @@ let transporter = nodemailer.createTransport({
               </head>
               <body>
                   <header>
-                      <h3>WISNU PRASETIO</h3>
+                      <h3>ACTIVATION</h3>
                   </header>
                   <main>
                       <p>Hello there...</p>
@@ -60,7 +60,7 @@ let transporter = nodemailer.createTransport({
                   </main>
                   <footer>
                         <p>regards...</p>
-                        <p>wisnu prasetio</p>
+                        <p>team</p>
                    </footer>
               </body>
               </html> `, // html body
