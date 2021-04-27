@@ -11,6 +11,8 @@ const productRoutes = require('./src/routers/products')
 const userRoutes = require('./src/routers/users')
 const transactions = require('./src/routers/transactions')
 const movieRoutes = require('./src/routers/movie')
+const providerRoutes = require('./src/routers/provider')
+
 const morgan = require('morgan')
 const cors = require('cors')
 const multer = require('multer')
@@ -33,6 +35,7 @@ app.use('/tikets', productRoutes) //Publik akses Home, Movie Detil, view All, up
 app.use('/transactions', transactions) 
 app.use('/users', userRoutes)
 app.use('/movies', movieRoutes)
+app.use('/provider', providerRoutes)
 app.use('/login', (req, res) => {
   res.send({
     token: 'test123'

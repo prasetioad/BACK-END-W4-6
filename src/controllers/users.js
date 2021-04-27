@@ -8,6 +8,8 @@ const hash = require('../helpers/hash')
 const { sendMail } = require('../helpers/email')
 const { sendForgotMail }= require('../helpers/sendForgotMail')
 
+
+
 exports.getUsers = (req, res) => {
   usersModels.getUsers()
     .then((result) => {
@@ -21,7 +23,7 @@ exports.getUsers = (req, res) => {
     })
 }
 
-exports.getUserById = (req, res) => {
+exports.getUserById = (req, res) => {;
   const idUser = req.params.id
   usersModels.getUserById(idUser)
     .then((result) => {
@@ -55,19 +57,38 @@ exports.creatUser = (req, res) => {
 
 exports.updateUser = (req, res) => {
   const { firstName, lastName, email, phone_number } = req.body
-  const image = req.filename
-  console.log(req);
+  console.log('ini last name',req.file);
+  let image = null
+  let data = null
+  // console.log('pengecekan masuk validasi ',req.file);
+  if(req.file !== undefined){
+    image = req.file.filename
+  }
+  
+  console.log('melewati validasi ',image);
+  // console.log(req,' masuk kedalam file cek');
   // if (req.file.size > 200000) {
   //   return helpers.response(res, null, 401, { gambar: 'Gambar terlalu Besar!' })
   // }
-  const data = {
-    firstName,
-    lastName,
-    email,
-    phone_number,
-    image: `http://localhost:5400/image/${image}`
-  }
   const idUser = req.params.id
+  if(req.file !== undefined){
+    data = {
+      firstName,
+      lastName,
+      email,
+      phone_number,
+      image: `http://localhost:5400/image/${image}`
+    }
+  } else{
+    data = {
+      firstName,
+      lastName,
+      email,
+      phone_number,
+    }
+  }
+  
+  console.log('ini data mau proses : ', data);
   usersModels.updateUser(idUser, data)
     .then((result) => { 
       return helpers.response(res, result, 201, null)
@@ -104,10 +125,10 @@ exports.register = async (req, res) => {
 
     }
     jwt.sign({ email: email }, privateKey, { expiresIn: '1h' }, function (err, token) {
-      console.log('Mengirim Emaill....');
-      return sendMail(data.userid, email, token, data.password)
+      console.log('Mengirim Emaill....'); 
+      sendMail(data.userid, email, token, data.password)
+      return helpers.response(res, 'success', 201, 'emang disii problemnya')
     })
-    return helpers.response(res, insert, 401, null)
   } catch (error) {
     console.log(error)
     return helpers.response(res, null, 500, { message: 'Internal server Error!' })
@@ -145,8 +166,10 @@ exports.forgotCheck = async(req, res) => {
   try {
     console.log('forgot berjalan', req.body);
     const {email} = req.body
+    console.log(email);
     const process = await usersModels.findUser(email)
     console.log('berhasil melewati await');
+    console.log(process);
     if(process.length == 0){
       return helpers.response(res, null, 401, {message: 'Email tidak ada!'})
     }
@@ -177,4 +200,39 @@ exports.forgotUpdate= async (req, res) => {
     .catch((err) => {
       return helpers.response(res, result, 401, {error : err})
     })
+}
+
+exports.getProfile = (req, res) =>{
+  console.log('Reques Profil berjalan : '+ req.params.id);
+  const token = req.params.id
+  jwt.verify(token, privateKey, function (err, decoded) {
+    if (err) {
+      if (err.name === 'TokenExpiredError') {
+        return helpers.response(res, null, 401, {
+          message: 'TOKEN expired'
+        })
+      } else if (err.name === 'JsonWebTokenError') {
+        return helpers.response(res, null, 401, {
+          message: 'invalid TOKEN'
+        })
+      } else if (err.name === 'NotBeforeError') {
+        return helpers.response(res, null, 401, {
+          message: 'TOKEN not active'
+        })
+      }
+    }else{
+      usersModels.getUserById(decoded.id)
+      .then((result) => {
+        delete result[0].password
+        console.log(result[0]);
+        res.status(201).json({
+        message: 'Get Profile  Successfull',
+        data: result[0]
+        })
+      })
+      .catch((err) => {
+        console.log({err: err})
+      })
+    }
+  })
 }
