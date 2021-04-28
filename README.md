@@ -25,4 +25,4 @@ Menampilkan detil dari pembelian tiket yang telah dipesan.
 ![PROFIL](https://user-images.githubusercontent.com/66661143/116281028-7c389680-a7b3-11eb-89b6-635a8717ac5c.png)
 
 ### Frontend
-https://github.com/prasetioad/Intermediet-backend-tikitz-w6-Arkademy
+https://github.com/prasetioad/Intermediate-frontend-tikitz-w7-Arakademy
