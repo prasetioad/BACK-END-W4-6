@@ -8,8 +8,6 @@ Tikitz, aplikasi pemesanan tiket online yang dibuat menggunakan Javascript.
 * React js
 * Mysql
 
-### Kunjungi
-* [Netlify](https://bioskopnya-wisnu.netlify.app/)
 ### Home page
 ![Untitled-7](https://user-images.githubusercontent.com/66661143/116281038-7e025a00-a7b3-11eb-87ca-7d021811ced8.jpg)
 ### Movie Detil page
@@ -23,6 +21,10 @@ Menampilkan detil dari pembelian tiket yang telah dipesan.
 ![PAYMENT PAGE](https://user-images.githubusercontent.com/66661143/116281304-c6217c80-a7b3-11eb-980f-ec91420c2837.png)
 ### Profile page
 ![PROFIL](https://user-images.githubusercontent.com/66661143/116281028-7c389680-a7b3-11eb-89b6-635a8717ac5c.png)
+
+
+### Kunjungi
+* [Netlify](https://bioskopnya-wisnu.netlify.app/)
 
 ### Frontend
 https://github.com/prasetioad/Intermediate-frontend-tikitz-w7-Arakademy
