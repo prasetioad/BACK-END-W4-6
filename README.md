@@ -24,7 +24,7 @@ Menampilkan detil dari pembelian tiket yang telah dipesan.
 
 
 ### Kunjungi
-* [Netlify](https://bioskopnya-wisnu.netlify.app/)
+* https://bioskopnya-wisnu.netlify.app/
 
 ### Frontend
 https://github.com/prasetioad/Intermediate-frontend-tikitz-w7-Arakademy
