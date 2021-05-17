@@ -96,5 +96,9 @@ exports.getProviderById = (req, res) => {
       .catch((err) => {
         console.log(err)
       })
+
   }
   
+  exports.getByPost=(req, res)=>{
+    console.log(req.body);
+  }

@@ -12,5 +12,6 @@ router
   .put('/:id',  providersController.updateProvider)
   .delete('/:id',  providersController.deleteProvider)
   .get('/:id',  providersController.getProviderById)
+  .post('/get', providersController.getByPost)
 
 module.exports = router

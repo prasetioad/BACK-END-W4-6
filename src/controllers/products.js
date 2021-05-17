@@ -2,6 +2,7 @@ const ticketssModels = require('../models/products')
 const db = require('../config/db')
 const helpers = require('../helpers/helper')
 const redis = require("redis");
+const { json } = require('body-parser');
 const client = redis.createClient(6379);
 
 
@@ -35,7 +36,7 @@ const getAllTickets = (req, res) => {
         if (result.length > 0) {
           res.json({
             message: 'Nama yang mungkin sesuai ....',
-            data: result[0]
+            data: result
           })
         }
       })
@@ -59,13 +60,14 @@ const getAllTickets = (req, res) => {
 }
 
 const creatTicket = (req, res) => {
-  const { name, release_date, duration, category, director, synopsis, cast } = req.body
-  const image = req
+  const { name, release_date, duration, category, director, synopsis, cast , provider} = req.body
+  const image = req.file.filename
+  console.log(req.file);
   // console.log(req.file.size)
   // if (req.file.size > 200000) {
   //   return helpers.response(res, null, 401, { gambar: 'Gambar terlalu Besar!' })
   // }
-  const data = {
+  let data = {
     name,
     release_date,
     duration,
@@ -73,34 +75,35 @@ const creatTicket = (req, res) => {
     synopsis,
     category,
     cast,
-    image: `http://localhost:5400/image/${image}`
+    provider,
+    image: `${process.env.IMAGE}${image}`
   }
-  console.log('gambar masuk tiket', req);
-  // ticketssModels.creatTickets(data)
-  //   .then((result) => {
-  //     res.status(201).json({
-  //       message: 'Creat Successfull',
-  //       data: result
-  //     })
-  //   })
-  //   .catch((err) => {
-  //     return helpers.response(res, null, 401, { err: err })
-  //   })
+  data.provider = JSON.stringify(data.provider)
+  console.log(data.provider);
+  ticketssModels.creatTickets(data)
+    .then((result) => {
+      res.status(201).json({
+        message: 'Creat Successfull',
+        data: result
+      })
+    })
+    .catch((err) => {
+      return helpers.response(res, null, 401, { err: err })
+    })
 }
 
 // //
 
 const updateTicket = (req, res) => {
   const idTicket = req.params.id
-  const { name, date, time, row, room, seat, price } = req.body
+  const { name, release_date, seat, price, provider, genre, category, duration, director, cast, synopsis,  } = req.body
   const data = {
     name,
-    date,
-    time,
-    row,
-    room,
+    release_date,
     seat,
-    price
+    price,
+    provider,
+    genre, category, duration, director, cast, synopsis, 
   }
   ticketssModels.updateTicket(idTicket, data)
     .then((result) => {
@@ -115,6 +118,7 @@ const updateTicket = (req, res) => {
 }
 
 const deleteTicket = (req, res) => {
+  console.log('masuk delete');
   const idTicket = req.params.id
   ticketssModels.deleteTicket(idTicket)
     .then((result) => {
@@ -129,15 +133,11 @@ const deleteTicket = (req, res) => {
 }
 
 const getTicketById = (req, res) => {
-  console.log('Get By ID BErjalan');
-  const idTicket = req.params.id
-  console.log(idTicket + ' get Tiket by ID berjalan')
-  ticketssModels.getTicketsById(idTicket)
+  ticketssModels.getTicketsById(req.params.id)
     .then((result) => {
-        const resultProduct = result
-        client.setex(`product_${idTicket}`, 60*60*12, JSON.stringify(resultProduct))
-        totalItems = result.length
-        helpers.response(res, resultProduct, 200)
+      result[0].provider = JSON.parse(result[0].provider)
+      console.log(result[0].provider);
+        helpers.response(res, result, 200)
     })
     .catch((err) => {
       return helpers.response(res, null, 401, { err: err })

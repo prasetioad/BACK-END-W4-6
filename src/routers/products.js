@@ -11,7 +11,7 @@ router
   .post('/', upload.single('image'), clearAllProduct, productsController.creatTicket)
   .get('/', productsController.getAllTickets)
   .put('/:id',auth.verivyAccess, clearAllProduct, productsController.updateTicket)
-  .delete('/:id',auth.verivyAccess, clearAllProduct, productsController.deleteTicket)
+  .delete('/:id', clearAllProduct, productsController.deleteTicket)
   .get('/:id',  productsController.getTicketById)
 // .post('/', productsController.creatTicket)
 

@@ -52,13 +52,12 @@ const tickets = {
 
   getTicketsById: (id) => {
     return new Promise((resolve, reject) => {
-      if (id % 2 === 1 || id % 2 === 0) {
+      if (id / 1 == id) {
         connection.query('SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.id = ?', id, (err, result) => {
           if (!err) {
             if (result.length < 1) {
               reject(new Error('Maaf data tidak ada!'))
             } else {
-              console.log('Ketemu!')
               resolve(result)
             }
           } else {
@@ -67,7 +66,7 @@ const tickets = {
         })
       } else {
         connection.query(`SELECT tiket.*, category.name AS nameCategory FROM tiket INNER JOIN category ON tiket.idCategory=category.id WHERE tiket.name LIKE '%${id}%'`, (err, result) => {
-          console.log(id)
+          
           if (!err) {
             resolve(result)
           } else {
