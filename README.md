@@ -63,9 +63,6 @@ or
 ### Front End
 * https://github.com/prasetioad/Intermediate-frontend-tikitz-w7-Arakademy
 
-### Back End
-* https://github.com/prasetioad/Intermediet-backend-tikitz-w6-Arkademy
-
 ## Live Demo
 * https://bioskopnya-wisnu.netlify.app/
 
