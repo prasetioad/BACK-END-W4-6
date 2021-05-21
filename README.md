@@ -19,7 +19,7 @@ Ini adalah API untuk Tikitz dimana seseorang bisa melakukan pemesanan tiket seca
 1. Clone the repo
 
 ```
-git clone https://github.com/prasetioad/ZWallet-Backend.git
+git clone https://github.com/prasetioad/Intermediet-backend-tikitz-w6-Arkademy.git
 
 ```
 2. Install NPM Packages 
