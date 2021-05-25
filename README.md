@@ -1,3 +1,13 @@
+<p align="center">
+  <a href="" rel="noopener">
+ <img height=200px src="https://user-images.githubusercontent.com/66661143/119432707-01758380-bd3f-11eb-9b1b-3b8d1ad56749.png" alt="logo"></a>
+</p>
+<div align="center">
+  
+[![made-with-VSCode](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)](https://code.visualstudio.com/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3e5e5f0e-297c-4bbe-85d7-12793c76f338/deploy-status)](https://incafe.netlify.app/)   
+</div>
+
 # Tikitz API
 
 <!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here --->
