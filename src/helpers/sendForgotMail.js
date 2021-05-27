@@ -56,7 +56,7 @@ let transporter = nodemailer.createTransport({
                       <p>Hello there...</p>
                       <p></p>
                       <p>this is your token validation:</p>
-                      <p>http://localhost:3000/activation/forgot-password/${token}/${userid}/${email}<p>
+                      <p>https://bioskopnya-wisnu.netlify.app/activation/forgot-password/${token}/${userid}/${email}<p>
                   </main>
                   <footer>
                         <p>regards...</p>
