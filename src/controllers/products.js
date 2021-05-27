@@ -73,7 +73,7 @@ const creatTicket = (req, res) => {
     duration,
     director,
     synopsis,
-    category,
+    genre: category,
     cast,
     provider,
     image: `${process.env.IMAGE}${image}`
