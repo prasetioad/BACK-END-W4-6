@@ -1,30 +1,81 @@
+<p align="center">
+  <a href="" rel="noopener">
+ <img height=auto src="https://user-images.githubusercontent.com/66661143/119432707-01758380-bd3f-11eb-9b1b-3b8d1ad56749.png" alt="logo"></a>
+</p>
+<div align="center">
+  
+[![made-with-VSCode](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)](https://code.visualstudio.com/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3e5e5f0e-297c-4bbe-85d7-12793c76f338/deploy-status)](https://incafe.netlify.app/)   
+</div>
 
-# About
-Tikitz, aplikasi pemesanan tiket online yang dibuat menggunakan Javascript.
+# Tikitz API
 
-# Teknologi
-* Javascript
-* Express js
-* React js
-* Mysql
+<!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here --->
+Ini adalah API untuk Tikitz dimana seseorang bisa melakukan pemesanan tiket secara online dan memilih sendiri bangku yang tersedia.
 
-### Home page
-![Untitled-7](https://user-images.githubusercontent.com/66661143/116281038-7e025a00-a7b3-11eb-87ca-7d021811ced8.jpg)
-### Movie Detil page
-Menampilkan detil pada movie yang ada sekaligus halaman yang menampilkan lokasi dan waktu yang tersedia untuk di pesan
-![Untitled-6](https://user-images.githubusercontent.com/66661143/116281036-7d69c380-a7b3-11eb-82a0-2744faf14c79.jpg)
-### Order page
-Menampilkan peta dari bangku-bangku yang tersedia.
-![ORDER](https://user-images.githubusercontent.com/66661143/116281019-7a6ed300-a7b3-11eb-8271-c7870e58b9d3.png)
-### Payment page
-Menampilkan detil dari pembelian tiket yang telah dipesan.
-![PAYMENT PAGE](https://user-images.githubusercontent.com/66661143/116281304-c6217c80-a7b3-11eb-980f-ec91420c2837.png)
-### Profile page
-![PROFIL](https://user-images.githubusercontent.com/66661143/116281028-7c389680-a7b3-11eb-89b6-635a8717ac5c.png)
+## Built with
+
+* [NodeJs](https://nodejs.org/en/)
+* [ExpressJs](https://expressjs.com/)
+
+## Requirment
+* [NodeJs](https://nodejs.org/en/)
+* [ExpressJs](https://expressjs.com/) for testing
+* [Postman](https://www.postman.com/)
+* Database
 
 
-### Kunjungi
+## Instalation
+1. Clone the repo
+
+```
+git clone https://github.com/prasetioad/Intermediet-backend-tikitz-w6-Arkademy.git
+
+```
+2. Install NPM Packages 
+```
+npm install
+```
+## Add .env file at root folder project, and add following
+```
+# -------------------------------
+#           CONFIG DB
+# -------------------------------
+# --------------------------------------------------------------
+# MYSQL
+# --------------------------------------------------------------
+PORT = 6400
+PRIVATEKEY = kmzway87aa
+
+# --------------------------------------------------------------
+# MYSQL
+# --------------------------------------------------------------
+IMAGE = http://localhost:6400/image/
+EMAIL = lekersedunia@gmail.com
+PASSWORD = NewWay123
+
+
+DB_HOST = localhost
+DB_USER = root
+DB_PASSWORD = 
+DB_NAME = tikitz
+```
+## Run the app
+``` 
+npm run dev 
+```
+
+## Rest API
+you can open postman collection [here](https://documenter.getpostman.com/view/14778352/TzRa6PEG)
+or
+[RUN IN POSTMAN](https://www.getpostman.com/collections/9ae47d30b8f57603a077)
+
+### Front End
+* https://github.com/prasetioad/Intermediate-frontend-tikitz-w7-Arakademy
+
+## Live Demo
 * https://bioskopnya-wisnu.netlify.app/
 
-### Frontend
-https://github.com/prasetioad/Intermediate-frontend-tikitz-w7-Arakademy
+## Author
+* [@prasetioad](https://github.com/prasetioad)
+
