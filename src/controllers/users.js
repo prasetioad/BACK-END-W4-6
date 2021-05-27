@@ -77,7 +77,7 @@ exports.updateUser = (req, res) => {
       lastName,
       email,
       phone_number,
-      image: `${process.env.IMAGE}/${image}`
+      image: `${process.env.IMAGE}${image}`
     }
   } else{
     data = {
