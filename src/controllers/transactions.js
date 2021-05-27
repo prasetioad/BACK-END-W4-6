@@ -17,6 +17,7 @@ exports.getTransactions = (req, res) => {
 }
 
 exports.getTransactionById = (req, res) => {
+  console.log('controller by trans id berjalan');
   const idTransaction = req.params.id
   transactionsModels.getTransactionById(idTransaction)
     .then((result) => {

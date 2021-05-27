@@ -15,7 +15,7 @@ const transactions = {
 
   getTransactionById: (id) => {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM transaction WHERE id = '${id}' `, (err, result) => {
+      connection.query(`SELECT * FROM transaction WHERE transaction_id = '${id}' `, (err, result) => {
         if (!err) {
           resolve(result)
         } else {

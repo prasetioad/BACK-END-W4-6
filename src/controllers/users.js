@@ -77,7 +77,7 @@ exports.updateUser = (req, res) => {
       lastName,
       email,
       phone_number,
-      image: `http://localhost:5400/image/${image}`
+      image: `${process.env.IMAGE}/${image}`
     }
   } else{
     data = {
@@ -91,6 +91,7 @@ exports.updateUser = (req, res) => {
   console.log('ini data mau proses : ', data);
   usersModels.updateUser(idUser, data)
     .then((result) => { 
+      console.log(result);
       return helpers.response(res, result, 201, null)
     })
     .catch((err) => {
@@ -153,7 +154,7 @@ exports.signIn = async (req, res) => {
 
     jwt.sign({id: user.userid, email: user.email, role: user.role }, privateKey, { expiresIn: '1h' }, function (err, token) {
       user.token = token
-      return helpers.response(res, token, 200, null)
+      return helpers.response(res, user, 200, null)
     })
     // JWT lulus pengecekan
   } catch (error) {
