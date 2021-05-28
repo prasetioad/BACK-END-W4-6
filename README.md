@@ -11,8 +11,7 @@
 # Tikitz API
 
 <!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here --->
-This is an API for Tikitz where you can order a ticket without stand from your seat.On this aplication you can choose your own seat and checkout it easily.
-This aplication have features like real time seats moving. 
+This is an API for Tikitz where you can order a ticket without stand from your seat. Here you can order a ticket without stand from your seat.On this aplication you can choose your own seat and checkout it easily. This aplication have great features like real time seats condition.
 
 ## Built with
 
