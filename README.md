@@ -11,7 +11,7 @@
 # Tikitz API
 
 <!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here --->
-Ini adalah API untuk Tikitz dimana seseorang bisa melakukan pemesanan tiket secara online dan memilih sendiri bangku yang tersedia.
+This is an API for Tikitz where one can book tickets online and choose their own seats.
 
 ## Built with
 
