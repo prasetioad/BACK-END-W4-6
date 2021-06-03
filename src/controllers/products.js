@@ -94,18 +94,20 @@ const creatTicket = (req, res) => {
 
 // //
 
-const updateTicket = (req, res) => {
+const updateTicket =async (req, res) => {
+  console.log('masuk Update Tiket');
   const idTicket = req.params.id
-  const { name, release_date, seat, price, provider, genre, category, duration, director, cast, synopsis,  } = req.body
-  const data = {
-    name,
-    release_date,
-    seat,
-    price,
-    provider,
-    genre, category, duration, director, cast, synopsis, 
-  }
-  ticketssModels.updateTicket(idTicket, data)
+  if(req.body.name !== undefined){
+    const { name, release_date, seat, price, provider, genre, category, duration, director, cast, synopsis,  } = req.body
+    const data = {
+      name,
+      release_date,
+      seat,
+      price,
+      provider,
+      genre, category, duration, director, cast, synopsis, 
+    }
+    ticketssModels.updateTicket(idTicket, data)
     .then((result) => {
       res.json({
         message: 'Update Success!',
@@ -115,6 +117,23 @@ const updateTicket = (req, res) => {
     .catch((err) => {
       return helpers.response(res, null, 401, { err: err })
     })
+  }else{
+    console.log(req.body);
+    const data = await ticketssModels.getTicketsById(req.params.id)
+    data[0].seat = data[0].seat+','+ req.body.seat
+    delete data[0].id
+    delete data[0].nameCategory
+    ticketssModels.updateTicket(idTicket, data[0])
+      .then((result) => {
+        res.json({
+          message: 'Update Seat Success!',
+          data: result
+        })
+      })
+      .catch((err) => {
+        return helpers.response(res, null, 401, { err: err })
+      })
+  }
 }
 
 const deleteTicket = (req, res) => {
@@ -140,7 +159,25 @@ const getTicketById = (req, res) => {
         helpers.response(res, result, 200)
     })
     .catch((err) => {
-      return helpers.response(res, null, 401, { err: err })
+      return helpers.response(res, null, 401, err)
+    })
+}
+
+const updateTicketSeat = (req, res) => {
+  const idTicket = req.params.id
+  const { seat } = req.body
+  const data = {
+    seat,
+  }
+  ticketssModels.updateTicket(idTicket, data)
+    .then((result) => {
+      res.status(200).json({
+        message: 'Update Seat Success!',
+        data: result
+      })
+    })
+    .catch((err) => {
+      return helpers.response(res, null, 401, err)
     })
 }
 
@@ -150,5 +187,6 @@ module.exports = {
   updateTicket,
   deleteTicket,
   getTicketById,
-  getTicketByName
+  getTicketByName,
+  updateTicketSeat
 }

@@ -37,7 +37,6 @@ const tickets = {
       })
     })
   },
-
   deleteTicket: (id) => {
     return new Promise((resolve, reject) => {
       connection.query('DELETE from tiket WHERE id = ?', id, (err, result) => {
