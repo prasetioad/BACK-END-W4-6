@@ -69,6 +69,7 @@ exports.updateTransaction = (req, res) => {
     Price
   }
   const idTiket = req.params.id
+  delete req.body.userId
   transactionsModels.updateTransaction(idTiket, data)
     .then((result) => {
       res.json({

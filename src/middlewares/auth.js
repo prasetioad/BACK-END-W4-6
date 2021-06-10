@@ -3,9 +3,7 @@ const helpers = require('../helpers/helper')
 const privateKey = process.env.PRIVATEKEY
 
 const verivyAccess = (req, res, next) => {
-  console.log('verivy access berjalan', req.headers);
   const auth = req.headers.authorization
-  console.log(auth);
   if (!auth) {
     return helpers.response(res, null, 401, {
       message: 'Invalid Token'
@@ -33,13 +31,16 @@ const verivyAccess = (req, res, next) => {
         console.log(decoded);
         next()
       }else{
-        if(decoded.id === req.params.id){
+        if(decoded.id === req.body.userId){
         console.log('ini userid', req.params.id);
         console.log('decode id', decoded.id);
         next()
         } else{
+          console.log(req.body);
+          console.log(decoded.id);
+          console.log(req.params.id);
           return helpers.response(res, null, 401, {
-            message: 'Unauthorized'
+            message: 'Unauthorized coy'
           })
         }
       }
@@ -80,8 +81,8 @@ const verivyProfil = (req, res, next) => {
         console.log('decode id', decoded.id);
         next()
         } else{
-          return helpers.response(res, null, 401, {
-            message: 'Unauthorized'
+          return helpers.response(res, 'ada yang salh', 401, {
+            message: 'Unauthorized coy'
           })
         }
       }
